@@ -38,12 +38,6 @@ jobs:
         with:
           version: 8
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: ".nvmrc"
-          cache: pnpm
-          registry-url: https://registry.npmjs.org
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: build root
