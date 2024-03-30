@@ -12,6 +12,7 @@ function App() {
     <div className="App">
       gao's blog
       <ul><li>gogogo</li></ul>
+      我的记录
       <footer className={style.footer}> &copy; {time}</footer>
     </div>
   );
