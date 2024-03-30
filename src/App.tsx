@@ -1,11 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import style from "./App.module.less";
 
 function App() {
-  const [count] = useState(0);
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    setTime(Date().toLocaleString());
+  }, []);
+
   return (
     <div className="App">
-      <h1>Hello Vite + React!</h1>
-      <h2>{count}</h2>
+      gao's blog
+      <footer className={style.footer}> &copy; {time}</footer>
     </div>
   );
 }

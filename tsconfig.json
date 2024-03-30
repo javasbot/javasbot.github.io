@@ -21,5 +21,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off"
+  },
+  "files": ["./global.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
