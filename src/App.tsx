@@ -7,33 +7,39 @@ function App() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    const parent = document.querySelector("#parent");
-    parent?.addEventListener(
-      "click",
-      (e) => {
-        alert("父亲1");
-        e.preventDefault();
-        // e.stopPropagation()
-      },
-      {
-        capture: true,
-        passive: true,
-      }
-    );
+    const timer = setInterval(() => {
+      setTime(new Date().toLocaleString());
+    }, 1000);
+    // const parent = document.querySelector("#parent");
+    // parent?.addEventListener(
+    //   "click",
+    //   (e) => {
+    //     alert("父亲1");
+    //     e.preventDefault();
+    //     // e.stopPropagation()
+    //   },
+    //   {
+    //     capture: true,
+    //     passive: true,
+    //   }
+    // );
     // const res = isPalindrome(121);
     // console.log(res);
-    const son = document.querySelector("#son");
-    son?.addEventListener(
-      "click",
-      (e) => {
-        alert("子");
-        // e.preventDefault()
-        // e.stopPropagation()
-      },
-      {
-        capture: false,
-      }
-    );
+    // const son = document.querySelector("#son");
+    // son?.addEventListener(
+    //   "click",
+    //   (e) => {
+    //     alert("子");
+    //     // e.preventDefault()
+    //     // e.stopPropagation()
+    //   },
+    //   {
+    //     capture: false,
+    //   }
+    // );
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   const [startAni, setStartAni] = useState(false);
