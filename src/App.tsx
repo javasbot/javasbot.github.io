@@ -4,7 +4,7 @@ import { Button } from "antd";
 import style from "./App.module.less";
 
 function App() {
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState(new Date().toLocaleString());
 
   useEffect(() => {
     const timer = setInterval(() => {
