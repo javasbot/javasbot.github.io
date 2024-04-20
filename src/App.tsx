@@ -1,61 +1,69 @@
 import { useEffect, useState } from "react";
+import classnames from "classnames";
+import { Button } from "antd";
 import style from "./App.module.less";
 
 function App() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    const arr = [9, 3, 1, 2, 5, 7, 3, 4, 2, 6, -3, -4, 2, 3.4, 45];
-    function bubbleSort(arr, n) {
-      if (n <= 1) {
-        return;
+    const parent = document.querySelector("#parent");
+    parent?.addEventListener(
+      "click",
+      (e) => {
+        alert("父亲1");
+        e.preventDefault();
+        // e.stopPropagation()
+      },
+      {
+        capture: true,
+        passive: true,
       }
-      for (let i = 0; i < n; ++i) {
-        let flag = false;
-        for (let j = 0; j < n - 1 - i; ++j) {
-          if (arr[j] > arr[j + 1]) {
-            const tmp = arr[j];
-            arr[j] = arr[j + 1];
-            arr[j + 1] = tmp;
-            flag = true;
-          }
-        }
-        if (!flag) {
-          break;
-        }
+    );
+    // const res = isPalindrome(121);
+    // console.log(res);
+    const son = document.querySelector("#son");
+    son?.addEventListener(
+      "click",
+      (e) => {
+        alert("子");
+        // e.preventDefault()
+        // e.stopPropagation()
+      },
+      {
+        capture: false,
       }
-      console.log("bubbleSort结果", arr);
-    }
-    console.time("bubbleSort");
-    bubbleSort(arr, arr.length);
-    console.timeEnd("bubbleSort");
-    function insertionSort(arr, n) {
-      if (n <= 1) {
-        return;
-      }
-      for (let i = 1; i < n; ++i) {
-        const value = arr[i];
-        const j = i - 1;
-        for (; j >= 0; --j) {
-          if (arr[j] > value) {
-            arr[j + 1] = arr[j]; // 数据移动
-          } else {
-            break;
-          }
-        }
-        arr[j + 1] = value; // 插入数
-      }
-      console.log("insertionSort结果", arr);
-    }
-    console.time("insertionSort");
-    insertionSort(arr, arr.length);
-    console.timeEnd("insertionSort");
+    );
   }, []);
 
+  const [startAni, setStartAni] = useState(false);
+
   return (
-    <div className="App">
-      算法
-      <footer className={style.footer}> &copy; {time}</footer>
+    <div className={style.App}>
+      <header className={style.header}>头部</header>
+      <div className={style.content}>
+        查看{startAni ? "true" : "false"}
+        <div className={classnames(style.container, startAni ? style.ant : "")}>
+          container内容
+        </div>
+      </div>
+      <footer className={style.footer}>
+        &copy; {time}
+        <Button
+          onClick={() => {
+            setStartAni(true);
+          }}
+        >
+          开始动画
+        </Button>
+        <Button
+          onClick={() => {
+            setStartAni(false);
+          }}
+        >
+          结束动画
+        </Button>
+      </footer>
     </div>
   );
 }
