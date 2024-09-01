@@ -10,7 +10,6 @@ export default defineConfig({
     target: "esnext",
     emptyOutDir: true,
   },
-  base: "/",
   server: {
     port: 3000,
     host: true,
