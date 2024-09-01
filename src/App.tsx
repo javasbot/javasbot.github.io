@@ -12,7 +12,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { HomeMediaCom } from "@components";
+import { HomeMediaCom } from "./components";
 import { Menu, Affix, Tooltip } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
