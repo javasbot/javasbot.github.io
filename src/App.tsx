@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   InstagramOutlined,
   DockerOutlined,
@@ -12,6 +12,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
+import { HomeMediaCom } from "@components";
 import { Menu, Affix, Tooltip } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
@@ -40,46 +41,72 @@ function App() {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const videoRef = useRef<any>();
+  const homeWPRef = useRef<any>();
+  const bgVideoRef = useRef<any>();
 
   useEffect(() => {
     if (pathname === "/") {
       sessionStorage.setItem("pageKey", "");
-      return;
+      const parentHeight = homeWPRef.current.clientHeight;
+      videoRef.current.style.height = `${parentHeight}px`;
+      bgVideoRef.current.style.height = `${parentHeight}px`;
+    } else {
+      const key = pathname.replace("/", "");
+      setCurrent(key);
     }
-    const key = sessionStorage.getItem("pageKey")!;
-    setCurrent(key);
-  }, []);
+  }, [pathname]);
 
-  const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-    sessionStorage.setItem("pageKey", e.key);
-  };
+  useEffect(() => {
+    function stopOtherVideo() {
+      if (videoRef.current?.paused) {
+        bgVideoRef.current.pause(); // 停止video2的播放
+      }
+    }
+    if (pathname === "/") {
+      videoRef.current.addEventListener("ended", stopOtherVideo);
+    }
+    return () => {
+      if (pathname === "/") {
+        videoRef.current.addEventListener("ended", stopOtherVideo);
+      }
+    };
+  }, []);
 
   const toHome = () => {
     navigate("/");
-    setCurrent("");
-    sessionStorage.setItem("pageKey", "");
   };
 
   return (
     <div className={style.App}>
       <header className={style.header}>
-        <Menu
-          onClick={onClick}
-          selectedKeys={[current]}
-          mode="horizontal"
-          items={items}
-        />
-        <Affix offsetTop={200} className={style.affix}>
-          <Tooltip title="回到首页">
-            <div className={style.homeIcon} onClick={toHome}></div>
-          </Tooltip>
-        </Affix>
+        <Menu className={style.menu} selectedKeys={[current]} mode="horizontal" items={items} />
+        {pathname !== "/" && (
+          <Affix offsetTop={200} className={style.affix}>
+            <Tooltip title="回到首页">
+              <div className={style.homeIcon} onClick={toHome}></div>
+            </Tooltip>
+          </Affix>
+        )}
+        <div className={style.tipImg}></div>
       </header>
       {pathname === "/" ? (
-        <div className={style.homeWP}>
-          <video className={style.videoEl} src="./wukong.mp4" autoPlay></video>
+        <div className={style.homeWP} ref={homeWPRef}>
+          <HomeMediaCom />
+          <video
+            ref={bgVideoRef}
+            className={style.bgVideo}
+            muted={true}
+            loop
+            src="./rains-s.mp4"
+            autoPlay
+          ></video>
+          <video
+            muted={true}
+            ref={videoRef}
+            src="./wukong.mp4"
+            autoPlay
+          ></video>
         </div>
       ) : (
         <div
