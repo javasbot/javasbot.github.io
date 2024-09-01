@@ -13,7 +13,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { HomeMediaCom } from "./components";
-import { Menu, Affix, Tooltip } from "antd";
+import { Menu, Tooltip } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
 
@@ -80,13 +80,18 @@ function App() {
   return (
     <div className={style.App}>
       <header className={style.header}>
-        <Menu className={style.menu} selectedKeys={[current]} mode="horizontal" items={items} />
+        <Menu
+          className={style.menu}
+          selectedKeys={[current]}
+          mode="horizontal"
+          items={items}
+        />
         {pathname !== "/" && (
-          <Affix offsetTop={200} className={style.affix}>
+          <div className={style.affix}>
             <Tooltip title="回到首页">
               <div className={style.homeIcon} onClick={toHome}></div>
             </Tooltip>
-          </Affix>
+          </div>
         )}
         <div className={style.tipImg}></div>
       </header>
