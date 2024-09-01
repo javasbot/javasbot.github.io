@@ -10,7 +10,7 @@ export default defineConfig({
     target: "esnext",
     emptyOutDir: true,
   },
-  base: process.env.NODE_ENV === "production" ? `${pkgName}` : "/",
+  base: "/",
   server: {
     port: 3000,
     host: true,
