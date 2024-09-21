@@ -8,7 +8,7 @@
     "email": "1055652678@qq.com"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev.cjs --mode dev",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   InstagramOutlined,
   DockerOutlined,
@@ -12,7 +12,6 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { HomeMediaCom } from "./components";
 import { Menu, Tooltip } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
@@ -41,37 +40,13 @@ function App() {
   const navigation = useNavigation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const videoRef = useRef<any>();
-  const homeWPRef = useRef<any>();
-  const bgVideoRef = useRef<any>();
 
   useEffect(() => {
-    if (pathname === "/") {
-      sessionStorage.setItem("pageKey", "");
-      const parentHeight = homeWPRef.current.clientHeight;
-      videoRef.current.style.height = `${parentHeight}px`;
-      bgVideoRef.current.style.height = `${parentHeight}px`;
-    } else {
-      const key = pathname.replace("/", "");
-      setCurrent(key);
-    }
+    const key = pathname.replace("/", "");
+    setCurrent(key);
   }, [pathname]);
 
-  useEffect(() => {
-    function stopOtherVideo() {
-      if (videoRef.current?.paused) {
-        bgVideoRef.current.pause(); // 停止video2的播放
-      }
-    }
-    if (pathname === "/") {
-      videoRef.current.addEventListener("ended", stopOtherVideo);
-    }
-    return () => {
-      if (pathname === "/") {
-        videoRef.current.addEventListener("ended", stopOtherVideo);
-      }
-    };
-  }, []);
+  useEffect(() => {}, []);
 
   const toHome = () => {
     navigate("/");
@@ -95,34 +70,14 @@ function App() {
         )}
         <div className={style.tipImg}></div>
       </header>
-      {pathname === "/" ? (
-        <div className={style.homeWP} ref={homeWPRef}>
-          <HomeMediaCom />
-          <video
-            ref={bgVideoRef}
-            className={style.bgVideo}
-            muted={true}
-            loop
-            src="./rains-s.mp4"
-            autoPlay
-          ></video>
-          <video
-            muted={true}
-            ref={videoRef}
-            src="./wukong.mp4"
-            autoPlay
-          ></video>
-        </div>
-      ) : (
-        <div
-          className={classnames(
-            style.container,
-            navigation.state === "loading" ? style.loading : ""
-          )}
-        >
-          <Outlet />
-        </div>
-      )}
+      <div
+        className={classnames(
+          style.container,
+          navigation.state === "loading" ? style.loading : ""
+        )}
+      >
+        <Outlet />
+      </div>
       <footer className={style.footer}>&copy;版权所有，只有一点点</footer>
     </div>
   );

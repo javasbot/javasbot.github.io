@@ -1,10 +1,12 @@
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import ErrorPage from "./errorPage/index.tsx";
-import BFE from "./pages/bfe";
+import { lazy, Suspense } from "react";
 import BE from "./pages/be";
-import AI from "./pages/ai";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const BFEPage = lazy(() => import("./pages/bfe"));
+const AIPage = lazy(() => import("./pages/ai"));
 
 const router = createBrowserRouter([
   {
@@ -14,7 +16,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/bfe",
-        element: <BFE />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <BFEPage />
+          </Suspense>
+        ),
       },
       {
         path: "/be",
@@ -22,7 +28,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/ai",
-        element: <AI />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AIPage />
+          </Suspense>
+        ),
       },
     ],
   },
