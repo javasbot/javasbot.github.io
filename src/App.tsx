@@ -12,7 +12,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { Menu, Tooltip } from "antd";
+import { Menu, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
 
@@ -34,6 +34,8 @@ const items: MenuItem[] = [
     label: <Link to="/ai">人工智能</Link>,
   },
 ];
+
+const { Link: LinkCom } = Typography;
 
 function App() {
   const [current, setCurrent] = useState("");
@@ -70,15 +72,26 @@ function App() {
         )}
         <div className={style.tipImg}></div>
       </header>
-      <div
-        className={classnames(
-          style.container,
-          navigation.state === "loading" ? style.loading : ""
-        )}
-      >
-        <Outlet />
-      </div>
-      <footer className={style.footer}>&copy;版权所有，只有一点点</footer>
+      {pathname === "/" ? (
+        <article className={style.article}>
+          记录知识在：
+          <LinkCom href="https://github.com/javasbot/javasbot.github.io/issues">
+            issue区
+          </LinkCom>
+        </article>
+      ) : (
+        <div
+          className={classnames(
+            style.container,
+            navigation.state === "loading" ? style.loading : ""
+          )}
+        >
+          <Outlet />
+        </div>
+      )}
+      <footer className={style.footer}>
+        &copy;版权所有，只有一点点 Knowledge Science Art Truth Fairness Justice
+      </footer>
     </div>
   );
 }
