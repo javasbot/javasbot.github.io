@@ -1,24 +1,23 @@
-const { exec } = require("node:child_process");
+const { spawn } = require("node:child_process");
 const { argv } = process;
 
 let child;
 let isInterrupted = false; // 标志变量，用于避免重复处理 SIGINT 信号
+
 function runVite() {
   const mode = argv[3];
   if (!["dev", "prod"].includes(mode)) {
     throw new Error("Invalid mode");
   }
 
-  const command = `vite --mode ${mode}`;
+  const command = "vite";
+  const args = ["--mode", mode];
 
-  child = exec(command, { stdio: [0, 1, 2] }, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
-  });
+  child = spawn(command, args);
+
+  if (!child) {
+    return;
+  }
 
   child.stdout.on("data", (data) => {
     const colorCode = "\x1b[35m"; // 洋红色
@@ -38,6 +37,9 @@ function runVite() {
 runVite();
 
 function gracefulShutdown() {
+  if (!child) {
+    return;
+  }
   child.kill("SIGTERM");
   console.log("已发送 SIGTERM 信号给子进程");
 
