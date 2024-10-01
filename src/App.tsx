@@ -12,9 +12,10 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { Menu, Tooltip, Typography } from "antd";
+import { Menu, message, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
+import axios from "axios";
 
 type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [
@@ -48,7 +49,16 @@ function App() {
     setCurrent(key);
   }, [pathname]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log("sess", sessionStorage);
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      console.log("token", token);
+    } else {
+      message.info("请先登录");
+      navigate("/user/login");
+    }
+  }, []);
 
   const toHome = () => {
     navigate("/");

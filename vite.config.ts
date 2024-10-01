@@ -19,7 +19,7 @@ export default defineConfig({
   css: {
     modules: {
       generateScopedName: "[name]__[local]___[hash:base64:5]",
-      hashPrefix: "prefix",
+      hashPrefix: pkgName,
     },
     preprocessorOptions: { less: { javascriptEnabled: true } },
   },
