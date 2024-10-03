@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 
@@ -7,12 +7,12 @@ const RegisterForm = () => {
 
   const onFinish = async (values: any) => {
     try {
-      const response = await axios.post('http://localhost:3003/user/register', values);
+      const response = await axios.post('https://gaoserver-jaygao.ladeapp.com/user/register', values);
       if (response.status === 200) {
         message.success('注册成功，请登录');
         form.resetFields();
       }
-    } catch (e) {
+    } catch (e: any) {
       const { message: errorMessage = '' } = e?.response?.data || {};
       message.error(errorMessage || '注册失败，请重试');
     }

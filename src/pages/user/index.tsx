@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { Tabs } from 'antd';
 import RegisterForm from './RegisterForm.tsx';
 import LoginForm from './LoginForm.tsx';

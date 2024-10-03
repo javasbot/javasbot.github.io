@@ -15,7 +15,7 @@ import {
 import { Menu, message, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
-import axios from "axios";
+// import axios from "axios";
 
 type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [

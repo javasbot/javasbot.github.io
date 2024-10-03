@@ -6,3 +6,6 @@ https://javasbot.github.io
 
 ## 部署
 [lade](https://www.lade.io/dashboard)
+
+`lade apps show`
+`lade logs -f`
