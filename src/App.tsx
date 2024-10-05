@@ -15,8 +15,7 @@ import {
 import { Menu, message, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
-import axios from "axios";
-// import axios from "axios";
+import { getItem } from "@/utils/storage";
 
 type MenuItem = Required<MenuProps>["items"][number];
 const items: MenuItem[] = [
@@ -52,17 +51,12 @@ function App() {
 
   useEffect(() => {
     console.log("sess", sessionStorage);
-    const token = sessionStorage.getItem("token");
+    const token = getItem("token");
     if (token) {
       console.log("token", token);
     } else {
-      var xhr = new XMLHttpRequest();
-      xhr.open("GET", import.meta.env.GAO_PREFIX, true);
-      xhr.send();
-      // axios.get('http://localhost:8065/user/list')
-      // axios.get('http://gaoserver-jaygao.ladeapp.com/user/list')
-      // message.info("请先登录");
-      // navigate("/user/login");
+      message.info("请先登录");
+      navigate("/user/login");
     }
   }, []);
 

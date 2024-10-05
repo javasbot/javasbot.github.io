@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 
 // 创建一个 axios 实例
@@ -42,7 +43,8 @@ service.interceptors.response.use(
           console.log("Bad Request");
           break;
         case 401:
-          console.log("Unauthorized");
+          console.log(`response`, error.response.data);
+          message.error(error.response.data.message)
           break;
         case 403:
           console.log("Forbidden");
@@ -54,6 +56,7 @@ service.interceptors.response.use(
           console.log("Internal Server Error");
           break;
         default:
+          message.error(error.response.data.message)
           console.log(`Unexpected error: ${error.response.status}`);
       }
     } else if (error.request) {
@@ -67,10 +70,10 @@ service.interceptors.response.use(
   }
 );
 
-export function get(url, params) {
+export function get(url: string, params: any) {
   return service.get(url, { params });
 }
 
-export function post(url, data) {
+export function post(url: string, data: any) {
   return service.post(url, data);
 }

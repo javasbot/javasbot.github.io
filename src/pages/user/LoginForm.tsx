@@ -1,6 +1,7 @@
 import { Form, Input, Button, message } from "antd";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { post } from "@/utils/request";
+import { setItem } from "@/utils/storage";
 
 const LoginForm = () => {
   const [form] = Form.useForm();
@@ -8,21 +9,14 @@ const LoginForm = () => {
 
   const onFinish = async (values: any) => {
     try {
-      // https://gaoserver-jaygao.ladeapp.com
-      const response = await axios.get(
-        "https://gaoserver-jaygao.ladeapp.com/user/list",
-        values
-      );
-      if (response.status === 200) {
-        // 假设服务器返回一个 token
-        const { token } = response.data;
-        localStorage.setItem("token", token);
+      const res: any = await post("/user/login", values);
+      console.log("res", res);
+      if (res.token) {
+        setItem("token", res.token);
         message.success("登录成功");
-        navigate("/dashboard"); // 假设登录后跳转到 dashboard 页面
+        navigate("/");
       }
-    } catch (error) {
-      message.error("登录失败，请重试");
-    }
+    } catch (e) {}
   };
 
   return (

@@ -17,7 +17,7 @@ export default (): UserConfigExport => {
     },
     server: {
       strictPort: true,
-      port: 3000,
+      port: 8008,
       host: true,
     },
     css: {
