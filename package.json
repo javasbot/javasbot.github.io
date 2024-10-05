@@ -8,32 +8,32 @@
     "email": "1055652678@qq.com"
   },
   "scripts": {
-    "dev": "node scripts/dev.cjs --mode dev",
-    "build": "tsc && vite build",
+    "start": "node scripts/dev.cjs --mode dev",
+    "build": "tsc && vite build --mode prod",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.4.0",
-    "antd": "^5.20.3",
-    "axios": "^1.7.6",
+    "@ant-design/icons": "^5.5.1",
+    "antd": "^5.21.2",
+    "axios": "^1.7.7",
     "classnames": "^2.5.1",
     "less": "^4.2.0",
     "lodash-es": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.1"
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "@types/react": "^18.3.5",
+    "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
-    "@typescript-eslint/eslint-plugin": "^8.3.0",
-    "@typescript-eslint/parser": "^8.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
-    "eslint": "^9.9.1",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "eslint": "^9.12.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.11",
-    "typescript": "^5.5.4",
-    "vite": "^5.4.2"
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.8"
   }
 }

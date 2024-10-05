@@ -15,6 +15,7 @@ import {
 import { Menu, message, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
+import axios from "axios";
 // import axios from "axios";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -55,8 +56,13 @@ function App() {
     if (token) {
       console.log("token", token);
     } else {
-      message.info("请先登录");
-      navigate("/user/login");
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", import.meta.env.GAO_PREFIX, true);
+      xhr.send();
+      // axios.get('http://localhost:8065/user/list')
+      // axios.get('http://gaoserver-jaygao.ladeapp.com/user/list')
+      // message.info("请先登录");
+      // navigate("/user/login");
     }
   }, []);
 

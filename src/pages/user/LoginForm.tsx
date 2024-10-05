@@ -9,8 +9,8 @@ const LoginForm = () => {
   const onFinish = async (values: any) => {
     try {
       // https://gaoserver-jaygao.ladeapp.com
-      const response = await axios.post(
-        "http://localhost:3003/user/login",
+      const response = await axios.get(
+        "https://gaoserver-jaygao.ladeapp.com/user/list",
         values
       );
       if (response.status === 200) {
