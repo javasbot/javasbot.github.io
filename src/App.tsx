@@ -5,13 +5,7 @@ import {
   KubernetesOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import {
-  Outlet,
-  useNavigation,
-  Link,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Outlet, useLocation, useNavigate, Link, useNavigation } from "react-router-dom";
 import { Menu, message, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
@@ -39,8 +33,8 @@ const items: MenuItem[] = [
 const { Link: LinkCom } = Typography;
 
 function App() {
-  const [current, setCurrent] = useState("");
   const navigation = useNavigation();
+  const [current, setCurrent] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -50,15 +44,14 @@ function App() {
   }, [pathname]);
 
   useEffect(() => {
-    console.log("sess", sessionStorage);
-    const token = getItem("token");
-    if (token) {
-      console.log("token", token);
-    } else {
-      message.info("请先登录");
-      navigate("/user/login");
+    if (pathname === "/") {
+      const token = getItem("token");
+      if (!token) {
+        message.info("请先登录");
+        navigate("/user/login");
+      }
     }
-  }, []);
+  }, [pathname, navigate]);
 
   const toHome = () => {
     navigate("/");
