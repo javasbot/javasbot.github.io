@@ -2,7 +2,7 @@
 import { Form, Input, Button, message } from "antd";
 import { post } from "../../utils/request";
 
-const RegisterForm = ({ handleOk }) => {
+const RegisterForm = ({ handleOk }: any) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
