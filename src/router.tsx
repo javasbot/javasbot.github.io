@@ -7,6 +7,7 @@ import ErrorPage from "@/errorPage";
 
 const BFEPage = lazy(() => import("@/pages/bfe"));
 const AIPage = lazy(() => import("@/pages/ai"));
+const ArchPage = lazy(() => import("@/pages/arch"));
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <AIPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/system_architecture",
+        element: (
+          <Suspense fallback={<div>加载中...</div>}>
+            <ArchPage />
           </Suspense>
         ),
       },

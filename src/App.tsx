@@ -1,34 +1,14 @@
 import { useEffect, useState } from "react";
 import {
-  InstagramOutlined,
-  DockerOutlined,
-  KubernetesOutlined,
-} from "@ant-design/icons";
-import type { MenuProps } from "antd";
-import { Outlet, useLocation, useNavigate, Link, useNavigation } from "react-router-dom";
-import { Menu, message, Tooltip, Typography } from "antd";
+  Outlet,
+  useLocation,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
+import { Menu, Tooltip, Typography } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
-import { getItem } from "@/utils/storage";
-
-type MenuItem = Required<MenuProps>["items"][number];
-const items: MenuItem[] = [
-  {
-    key: "FE",
-    icon: <InstagramOutlined />,
-    label: <Link to="/bfe">大前端</Link>,
-  },
-  {
-    key: "BE",
-    icon: <DockerOutlined />,
-    label: <Link to="/be">后端</Link>,
-  },
-  {
-    key: "AI",
-    icon: <KubernetesOutlined />,
-    label: <Link to="/ai">人工智能</Link>,
-  },
-];
+import { menuItems } from "@/constants/menus";
 
 const { Link: LinkCom } = Typography;
 
@@ -43,15 +23,15 @@ function App() {
     setCurrent(key);
   }, [pathname]);
 
-  useEffect(() => {
-    if (pathname === "/") {
-      const token = getItem("token");
-      if (!token) {
-        message.info("请先登录");
-        navigate("/user/login");
-      }
-    }
-  }, [pathname, navigate]);
+  // useEffect(() => {
+  //   if (pathname === "/") {
+  //     const token = getItem("token");
+  //     if (!token) {
+  //       message.info("请先登录");
+  //       navigate("/user/login");
+  //     }
+  //   }
+  // }, [pathname, navigate]);
 
   const toHome = () => {
     navigate("/");
@@ -64,7 +44,7 @@ function App() {
           className={style.menu}
           selectedKeys={[current]}
           mode="horizontal"
-          items={items}
+          items={menuItems}
         />
         {pathname !== "/" && (
           <div className={style.affix}>
