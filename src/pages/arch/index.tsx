@@ -19,7 +19,7 @@ export default function BFE() {
     getList();
   }, []);
   return (
-    <div>
+    <div className={style.archWP}>
       <List
         size="large"
         bordered

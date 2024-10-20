@@ -3,22 +3,9 @@ import Vditor from "vditor";
 import style from "./index.module.less";
 import "vditor/dist/index.css";
 import { post } from "@/utils/request";
-import {
-  Button,
-  Modal,
-  Form,
-  Input,
-  Select,
-  List,
-  Typography,
-  message,
-} from "antd";
-import axios from "axios";
+import { Button, Modal, Form, Input, Select, message } from "antd";
 import { articleTypes } from "@/constants/commonTypes";
 import { useNavigate } from "react-router-dom";
-
-const { Option } = Select;
-const { Title } = Typography;
 
 const Write = () => {
   const [vd, setVd] = useState<Vditor>();

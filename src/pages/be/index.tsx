@@ -19,7 +19,7 @@ export default function BFE() {
     getList();
   }, []);
   return (
-    <div>
+    <div className={style.BEWP}>
       <List
         size="large"
         bordered
