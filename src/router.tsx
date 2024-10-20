@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import BE from "@/pages/be";
-import UserPage from "@/pages/user/index";
+import LoginPage from "@/pages/user/login";
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import ErrorPage from "@/errorPage";
@@ -8,10 +8,28 @@ import ErrorPage from "@/errorPage";
 const BFEPage = lazy(() => import("@/pages/bfe"));
 const AIPage = lazy(() => import("@/pages/ai"));
 const ArchPage = lazy(() => import("@/pages/arch"));
+const UserPage = lazy(() => import("@/pages/user"));
+const UserWrite = lazy(() => import("@/pages/user/write"));
 
 const router = createBrowserRouter([
   {
     path: "/user/login",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/user/write",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <UserWrite />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/user/home",
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <UserPage />

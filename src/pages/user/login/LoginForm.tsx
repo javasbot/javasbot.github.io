@@ -1,17 +1,21 @@
-// import React, { useState } from 'react';
 import { Form, Input, Button, message } from "antd";
-import { post } from "../../utils/request";
+import { useNavigate } from "react-router-dom";
+import { post } from "@/utils/request";
+import { setItem } from "@/utils/storage";
 
-const RegisterForm = ({ handleOk }: any) => {
+const LoginForm = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
     try {
-      const res = await post("/user/register", values);
-      console.log("res", res, typeof res);
-      if (res) {
-        message.success("注册成功，请登录");
-        handleOk();
+      const res: any = await post("/user/login", values);
+      console.log("res", res);
+      if (res.token) {
+        setItem("token", res.token);
+        setItem("username", res.username);
+        message.success("登录成功");
+        navigate("/");
       }
     } catch (e) {}
   };
@@ -19,7 +23,7 @@ const RegisterForm = ({ handleOk }: any) => {
   return (
     <Form
       form={form}
-      name="register"
+      name="login"
       onFinish={onFinish}
       initialValues={{ remember: true }}
     >
@@ -30,15 +34,6 @@ const RegisterForm = ({ handleOk }: any) => {
         <Input placeholder="用户名" />
       </Form.Item>
       <Form.Item
-        name="email"
-        rules={[
-          { required: true, message: "请输入邮箱" },
-          { type: "email", message: "请输入有效的邮箱地址" },
-        ]}
-      >
-        <Input placeholder="邮箱" />
-      </Form.Item>
-      <Form.Item
         name="password"
         rules={[{ required: true, message: "请输入密码" }]}
       >
@@ -46,11 +41,11 @@ const RegisterForm = ({ handleOk }: any) => {
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" block>
-          注册
+          登录
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

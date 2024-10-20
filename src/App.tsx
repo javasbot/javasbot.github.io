@@ -1,59 +1,81 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Outlet,
   useLocation,
   useNavigate,
   useNavigation,
 } from "react-router-dom";
-import { Menu, Tooltip, Typography } from "antd";
+import { Menu, Tooltip, Typography, Button, Avatar } from "antd";
 import classnames from "classnames";
 import style from "./App.module.less";
 import { menuItems } from "@/constants/menus";
+import { getItem } from "@/utils/storage";
+import useCustomReducer from "@/hooks/useCusReducer";
 
 const { Link: LinkCom } = Typography;
 
 function App() {
+  const [state, dispatch] = useCustomReducer({
+    username: "",
+  });
+  const { username } = state;
   const navigation = useNavigation();
-  const [current, setCurrent] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const key = pathname.replace("/", "");
-    setCurrent(key);
-  }, [pathname]);
-
-  // useEffect(() => {
-  //   if (pathname === "/") {
-  //     const token = getItem("token");
-  //     if (!token) {
-  //       message.info("请先登录");
-  //       navigate("/user/login");
-  //     }
-  //   }
-  // }, [pathname, navigate]);
+    const username = getItem("username");
+    if (username) {
+      dispatch("username", username);
+    }
+  }, []);
 
   const toHome = () => {
     navigate("/");
   };
 
+  const handleUser = () => {
+    navigate("/user/login");
+  };
+
+  const handleUserHome = () => {
+    navigate("/user/home");
+  };
+
   return (
     <div className={style.App}>
+      {pathname !== "/" && (
+        <div className={style.affix}>
+          <Tooltip title="回到首页">
+            <div className={style.homeIcon} onClick={toHome}></div>
+          </Tooltip>
+        </div>
+      )}
       <header className={style.header}>
-        <Menu
-          className={style.menu}
-          selectedKeys={[current]}
-          mode="horizontal"
-          items={menuItems}
-        />
-        {pathname !== "/" && (
-          <div className={style.affix}>
-            <Tooltip title="回到首页">
-              <div className={style.homeIcon} onClick={toHome}></div>
-            </Tooltip>
+        <Menu className={style.menu} mode="horizontal" items={menuItems} />
+        {username ? (
+          <div className={style.user}>
+            <Button onClick={handleUserHome} className={style.info} type="primary">
+              个人中心
+            </Button>
+            <Avatar src="./avatar.png" />
+            <span className={style.username}>{username}</span>
+          </div>
+        ) : (
+          <div className={style.btns}>
+            <Button
+              type="primary"
+              onClick={handleUser}
+              size="large"
+              className={style.login}
+            >
+              登录
+            </Button>
+            <Button size="large" className={style.register}>
+              注册
+            </Button>
           </div>
         )}
-        <div className={style.tipImg}></div>
       </header>
       {pathname === "/" ? (
         <article className={style.article}>
