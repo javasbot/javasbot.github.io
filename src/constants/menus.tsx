@@ -26,7 +26,7 @@ const menuItems: MenuItem[] = [
   {
     key: "Architecture",
     icon: <KubernetesOutlined />,
-    label: <Link to="/system_architecture">系统架构</Link>,
+    label: <Link to="/system_architecture">系统架构设计</Link>,
   },
 ];
 

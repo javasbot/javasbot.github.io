@@ -1,3 +1,37 @@
+import { useEffect } from "react";
+import { List } from "antd";
+import style from "./index.module.less";
+import { post } from "@/utils/request";
+import useCustomReducer from "@/hooks/useCusReducer";
+import { Link } from "react-router-dom";
 export default function BFE() {
-  return <div>大前端</div>;
+  const [state, dispatch] = useCustomReducer({
+    article: [],
+  });
+
+  useEffect(() => {
+    async function getList() {
+      const res: any = await post("/user/posts", { articleType: "FE" });
+      if (res) {
+        dispatch("article", res.articles);
+      }
+    }
+    getList();
+  }, []);
+  return (
+    <div>
+      <List
+        size="large"
+        bordered
+        dataSource={state.article}
+        renderItem={(item: any) => (
+          <List.Item>
+            <Link target="_blank" to={item.link}>
+              {item.title}
+            </Link>
+          </List.Item>
+        )}
+      />
+    </div>
+  );
 }

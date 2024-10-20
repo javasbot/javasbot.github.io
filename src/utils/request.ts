@@ -44,7 +44,7 @@ service.interceptors.response.use(
           break;
         case 401:
           console.log(`response`, error.response.data);
-          message.error(error.response.data.message)
+          message.error(error.response.data.message);
           break;
         case 403:
           console.log("Forbidden");
@@ -53,10 +53,14 @@ service.interceptors.response.use(
           console.log("Not Found");
           break;
         case 500:
-          console.log("Internal Server Error");
+          if (error.response.data.message) {
+            message.error(error.response.data.message);
+          } else {
+            console.log(error);
+          }
           break;
         default:
-          message.error(error.response.data.message)
+          message.error(error.response.data.message);
           console.log(`Unexpected error: ${error.response.status}`);
       }
     } else if (error.request) {
