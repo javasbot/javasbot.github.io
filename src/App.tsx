@@ -71,7 +71,7 @@ function App() {
             >
               登录
             </Button>
-            <Button size="large" className={style.register}>
+            <Button onClick={handleUser} size="large" className={style.register}>
               注册
             </Button>
           </div>
