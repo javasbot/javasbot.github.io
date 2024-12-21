@@ -1,17 +1,20 @@
 import { useEffect } from "react";
-import { List } from "antd";
+import { List, Typography } from "antd";
 import style from "./index.module.less";
 import { post } from "@/utils/request";
 import useCustomReducer from "@/hooks/useCusReducer";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function BFE() {
+  const nav = useNavigate();
   const [state, dispatch] = useCustomReducer({
     article: [],
   });
 
   useEffect(() => {
     async function getList() {
-      const res: any = await post("/user/posts", { articleType: "Architecture" });
+      const res: any = await post("/user/posts", {
+        articleType: "Architecture",
+      });
       if (res) {
         dispatch("article", res.articles);
       }
@@ -26,9 +29,15 @@ export default function BFE() {
         dataSource={state.article}
         renderItem={(item: any) => (
           <List.Item>
-            <Link target="_blank" to={item.link}>
+            <Typography.Link
+              onClick={() => {
+                nav(`/user/write`, {
+                  state: { url: item.download_url },
+                });
+              }}
+            >
               {item.title}
-            </Link>
+            </Typography.Link>
           </List.Item>
         )}
       />

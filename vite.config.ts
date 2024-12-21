@@ -22,7 +22,7 @@ export default (): UserConfigExport => {
     },
     css: {
       modules: {
-        generateScopedName: "[name]__[local]___[hash:base64:5]",
+        generateScopedName: "[name]_[local]_[hash:base64:5]",
         hashPrefix: pkgName,
       },
       preprocessorOptions: { less: { javascriptEnabled: true } },

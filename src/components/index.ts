@@ -1,1 +1,1 @@
-export { default as HomeMediaCom } from "./homeMediaCom";
+export { default as ArticleCom } from "./articleCom";

@@ -5,29 +5,40 @@ import "vditor/dist/index.css";
 import { post } from "@/utils/request";
 import { Button, Modal, Form, Input, Select, message } from "antd";
 import { articleTypes } from "@/constants/commonTypes";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Write = () => {
   const [vd, setVd] = useState<Vditor>();
+  const { state } = useLocation();
+  console.log(location);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const vditor = new Vditor("vditor", {
-      mode: "sv",
-      after: () => {
-        vditor.setValue("`Vditor` 最小代码示例");
-        setVd(vditor);
-      },
-    });
-
+    async function init() {
+      const vditor = new Vditor("vditor", {
+        mode: "sv",
+        after: () => {
+          vditor.setValue("`Vditor` 最小代码示例");
+          setVd(vditor);
+        },
+      });
+      if (state.url) {
+        const res: any = await post("/user/postDetail", {
+          download_url: state.url,
+        });
+        console.log("res", res);
+        vditor.setValue(res.content);
+      }
+    }
+    init();
     // Clear the effect
     return () => {
       vd?.destroy();
       setVd(undefined);
     };
-  }, []);
+  }, [state.url]);
 
   const handlePublish = () => {
     setIsModalVisible(true);
