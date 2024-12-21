@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Vditor from "vditor";
 import style from "./index.module.less";
 import "vditor/dist/index.css";
@@ -16,29 +16,31 @@ const Write = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    async function init() {
-      const vditor = new Vditor("vditor", {
-        mode: "sv",
-        after: () => {
-          vditor.setValue("`Vditor` 最小代码示例");
-          setVd(vditor);
-        },
-      });
-      if (state.url) {
-        const res: any = await post("/user/postDetail", {
-          download_url: state.url,
-        });
-        console.log("res", res);
-        vditor.setValue(res.content);
-      }
-    }
-    init();
+    const vditor = new Vditor("vditor", {
+      mode: "sv",
+      after: () => {
+        setVd(vditor);
+      },
+    });
     // Clear the effect
     return () => {
       vd?.destroy();
       setVd(undefined);
     };
-  }, [state.url]);
+  }, []);
+
+  useEffect(() => {
+    async function init() {
+      if (state.url) {
+        const res: any = await post("/user/postDetail", {
+          download_url: state.url,
+        });
+        console.log("res", res);
+        vd?.setValue(res.content);
+      }
+    }
+    init();
+  }, [state.url, vd]);
 
   const handlePublish = () => {
     setIsModalVisible(true);

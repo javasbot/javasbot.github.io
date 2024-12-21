@@ -34,8 +34,9 @@ function App() {
     navigate("/");
   };
 
-  const handleUser = () => {
-    navigate("/user/login");
+  const handleUser = (type = "") => {
+    const url = type ? `/user/login?type=${type}` : "/user/login";
+    navigate(url);
   };
 
   const handleUserHome = () => {
@@ -55,7 +56,11 @@ function App() {
         <Menu className={style.menu} mode="horizontal" items={menuItems} />
         {username ? (
           <div className={style.user}>
-            <Button onClick={handleUserHome} className={style.info} type="primary">
+            <Button
+              onClick={handleUserHome}
+              className={style.info}
+              type="primary"
+            >
               个人中心
             </Button>
             <Avatar src="./avatar.png" />
@@ -65,13 +70,17 @@ function App() {
           <div className={style.btns}>
             <Button
               type="primary"
-              onClick={handleUser}
+              onClick={() => handleUser()}
               size="large"
               className={style.login}
             >
               登录
             </Button>
-            <Button onClick={handleUser} size="large" className={style.register}>
+            <Button
+              onClick={() => handleUser("register")}
+              size="large"
+              className={style.register}
+            >
               注册
             </Button>
           </div>
