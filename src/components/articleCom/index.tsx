@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { post } from "@/utils/request";
 import { Typography } from "antd";
 import style from "./articleCom.module.less";
@@ -16,6 +15,7 @@ export default function ArticleCom({ item }: IProps) {
 
   const handleClick = async () => {
     const res: any = await post("/user/postDetail", { download_url });
+    console.log("res", res);
   };
   return (
     <div className={style.item} onClick={handleClick}>

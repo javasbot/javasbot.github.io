@@ -3,7 +3,7 @@ import { List, Typography } from "antd";
 import style from "./index.module.less";
 import { post } from "@/utils/request";
 import useCustomReducer from "@/hooks/useCusReducer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function BFE() {
   const nav = useNavigate();
   const [state, dispatch] = useCustomReducer({
