@@ -18,18 +18,20 @@ const Write = () => {
     title: "",
     category: "",
   });
+  const [publishLoading, setPublishLoading] = useState(false);
+  const [delLoading, setDelLoading] = useState(false);
 
   useEffect(() => {
     const vditor = new Vditor("vditor", {
       mode: "sv",
-      value: '',
+      value: "",
       after: () => {
         setVd(vditor);
       },
     });
     // Clear the effect
     return () => {
-      vd?.setValue('');
+      vd?.setValue("");
       vd?.destroy();
       setVd(undefined);
     };
@@ -72,23 +74,28 @@ const Write = () => {
     if (!content) {
       return;
     }
+    setPublishLoading(true);
+    try {
+      // 发送请求
+      const response: any = await post("/user/write", {
+        category: values.category,
+        title: values.title,
+        content: content,
+      });
 
-    // 发送请求
-    const response: any = await post("/user/write", {
-      category: values.category,
-      title: values.title,
-      content: content,
-    });
-
-    // 根据响应显示成功或错误模态框
-    if (response?.success) {
-      message.success("文章已成功发布");
-      // 成功后可以关闭弹窗并重置表单
-      setIsModalVisible(false);
-      form.resetFields();
-      setTimeout(() => {
-        navigate("/");
-      }, 0);
+      // 根据响应显示成功或错误模态框
+      if (response?.success) {
+        message.success("文章已成功发布");
+        // 成功后可以关闭弹窗并重置表单
+        setIsModalVisible(false);
+        form.resetFields();
+        setTimeout(() => {
+          navigate("/");
+        }, 0);
+      }
+    } catch (e) {
+    } finally {
+      setPublishLoading(false);
     }
   };
 
@@ -104,12 +111,22 @@ const Write = () => {
       okText: "确定",
       cancelText: "取消",
       onOk: async () => {
-        if (state.url) {
-          const res: any = await post("/user/deletePost", {
-            url: articleInfo.path,
-          });
-          if (res.success) {
+        try {
+          if (state.url) {
+            setDelLoading(true);
+            const res: any = await post("/user/deletePost", {
+              url: articleInfo.path,
+            });
+            if (res.success) {
+              message.success("删除成功");
+              setTimeout(() => {
+                navigate("/");
+              }, 0);
+            }
           }
+        } catch (e) {
+        } finally {
+          setDelLoading(false);
         }
       },
     });
@@ -119,10 +136,14 @@ const Write = () => {
     <div className={style.writeWP}>
       <div className={style.operaBtns}>
         <Space>
-          <Button type="primary" onClick={handlePublish}>
+          <Button
+            loading={publishLoading}
+            type="primary"
+            onClick={handlePublish}
+          >
             发布
           </Button>
-          <Button danger onClick={handleDel}>
+          <Button loading={delLoading} danger onClick={handleDel}>
             删除
           </Button>
         </Space>
@@ -134,6 +155,7 @@ const Write = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         okText="确定"
+        loading={publishLoading}
         cancelText="取消"
       >
         <Form form={form} layout="vertical">
