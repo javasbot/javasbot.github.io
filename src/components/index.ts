@@ -1,1 +1,2 @@
-export { default as ArticleCom } from "./articleCom";
+export { default as ArticleLink } from "./articleLink";
+export { default as ArticleList } from "./articleList";

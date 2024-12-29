@@ -1,29 +1,35 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Vditor from "vditor";
 import style from "./index.module.less";
 import "vditor/dist/index.css";
 import { post } from "@/utils/request";
-import { Button, Modal, Form, Input, Select, message } from "antd";
+import { Button, Modal, Form, Input, Select, message, Space } from "antd";
 import { articleTypes } from "@/constants/commonTypes";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Write = () => {
   const [vd, setVd] = useState<Vditor>();
   const { state } = useLocation();
-  console.log(location);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [articleInfo, setArticleInfo] = useState({
+    path: "",
+    title: "",
+    category: "",
+  });
 
   useEffect(() => {
     const vditor = new Vditor("vditor", {
       mode: "sv",
+      value: '',
       after: () => {
         setVd(vditor);
       },
     });
     // Clear the effect
     return () => {
+      vd?.setValue('');
       vd?.destroy();
       setVd(undefined);
     };
@@ -31,12 +37,18 @@ const Write = () => {
 
   useEffect(() => {
     async function init() {
-      if (state.url) {
+      if (state.url && vd) {
         const res: any = await post("/user/postDetail", {
           download_url: state.url,
         });
-        console.log("res", res);
+        console.log("res", res, "url", state);
         vd?.setValue(res.content);
+        const category = state.path?.split("/")[0];
+        setArticleInfo({
+          title: state.title,
+          category: category,
+          path: state.path,
+        });
       }
     }
     init();
@@ -85,12 +97,35 @@ const Write = () => {
     form.resetFields();
   };
 
+  const handleDel = async () => {
+    Modal.confirm({
+      title: "确定删除该文章吗？",
+      content: "删除后不可恢复",
+      okText: "确定",
+      cancelText: "取消",
+      onOk: async () => {
+        if (state.url) {
+          const res: any = await post("/user/deletePost", {
+            url: articleInfo.path,
+          });
+          if (res.success) {
+          }
+        }
+      },
+    });
+  };
+
   return (
     <div className={style.writeWP}>
       <div className={style.operaBtns}>
-        <Button type="primary" onClick={handlePublish}>
-          发布
-        </Button>
+        <Space>
+          <Button type="primary" onClick={handlePublish}>
+            发布
+          </Button>
+          <Button danger onClick={handleDel}>
+            删除
+          </Button>
+        </Space>
       </div>
       <div id="vditor" className="vditor" />
       <Modal
@@ -105,6 +140,7 @@ const Write = () => {
           <Form.Item
             name="category"
             label="文章分类"
+            initialValue={articleInfo.category}
             rules={[{ required: true, message: "请选择文章分类" }]}
           >
             <Select
@@ -115,6 +151,7 @@ const Write = () => {
           <Form.Item
             name="title"
             label="文章标题"
+            initialValue={articleInfo.title}
             rules={[{ required: true, message: "请输入文章标题" }]}
           >
             <Input placeholder="请输入文章标题" />
