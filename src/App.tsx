@@ -3,7 +3,6 @@ import {
   Outlet,
   useLocation,
   useNavigate,
-  useNavigation,
 } from "react-router-dom";
 import { Menu, Tooltip, Typography, Button, Avatar } from "antd";
 import classnames from "classnames";
@@ -19,7 +18,6 @@ function App() {
     username: "",
   });
   const { username } = state;
-  const navigation = useNavigation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
