@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const Write = () => {
   const [vd, setVd] = useState<Vditor>();
-  const { state } = useLocation();
+  const { state } = useLocation() || {};
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
   const [form] = Form.useForm();
@@ -39,7 +39,7 @@ const Write = () => {
 
   useEffect(() => {
     async function init() {
-      if (state.url && vd) {
+      if (vd) {
         const res: any = await post("/user/postDetail", {
           download_url: state.url,
         });
@@ -53,8 +53,10 @@ const Write = () => {
         });
       }
     }
-    init();
-  }, [state.url, vd]);
+    if (state?.url) {
+      init();
+    }
+  }, [state?.url, vd]);
 
   const handlePublish = () => {
     setIsModalVisible(true);
@@ -136,11 +138,7 @@ const Write = () => {
     <div className={style.writeWP}>
       <div className={style.operaBtns}>
         <Space>
-          <Button
-            loading={publishLoading}
-            type="primary"
-            onClick={handlePublish}
-          >
+          <Button type="primary" onClick={handlePublish}>
             发布
           </Button>
           <Button loading={delLoading} danger onClick={handleDel}>
@@ -155,7 +153,7 @@ const Write = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         okText="确定"
-        loading={publishLoading}
+        confirmLoading={publishLoading}
         cancelText="取消"
       >
         <Form form={form} layout="vertical">

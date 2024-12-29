@@ -97,7 +97,6 @@ function App() {
         <div
           className={classnames(
             style.container,
-            navigation.state === "loading" ? style.loading : ""
           )}
         >
           <Outlet />

@@ -3,6 +3,7 @@ import BE from "@/pages/be";
 import LoginPage from "@/pages/user/login";
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
+import { Skeleton } from "antd";
 import ErrorPage from "@/errorPage";
 
 const BFEPage = lazy(() => import("@/pages/bfe"));
@@ -15,7 +16,7 @@ const router = createBrowserRouter([
   {
     path: "/user/login",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Skeleton />}>
         <LoginPage />
       </Suspense>
     ),
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
   {
     path: "/user/write",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Skeleton />}>
         <UserWrite />
       </Suspense>
     ),
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
   {
     path: "/user/home",
     element: (
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Skeleton />}>
         <UserPage />
       </Suspense>
     ),
@@ -44,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: "/bfe",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Skeleton />}>
             <BFEPage />
           </Suspense>
         ),
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
       {
         path: "/ai",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Skeleton />}>
             <AIPage />
           </Suspense>
         ),
